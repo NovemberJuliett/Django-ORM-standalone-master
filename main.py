@@ -1,6 +1,6 @@
 import os
 import django
-import datetime
+from datetime import datetime
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
@@ -24,14 +24,16 @@ if __name__ == '__main__':
     # print("Активных пропусков", len(active_passcards))
 
     not_closed_visits = Visit.objects.filter(leaved_at__isnull=True)
-    # print(not_closed_visits)
+    for person in not_closed_visits:
+        print(person.passcard)
     local_time = localtime()
     entered_at = Visit.objects.filter(entered_at__isnull=False)
-    print(entered_at)
     for person in entered_at:
-        print("Зашёл в хранилище, время по Москве:", local_time)
-        delta = local_time - entered_at
-        print("Находится в хранилище:", delta.hour)
+        entered = person.entered_at
+        resides = local_time - entered
+        # print("Зашёл в хранилище, время по Москве:", local_time)
+        # print("Находится в хранилище:", str(resides).split('.')[0])
 
 
-    # print('Количество пропусков:', Passcard.objects.count())  # noqa: T001
+
+# print('Количество пропусков:', Passcard.objects.count())  # noqa: T001
